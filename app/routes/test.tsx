@@ -1,6 +1,6 @@
 import { useNavigate, useLocation, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
-  import { BsKeyboard, BsArrowRight } from "react-icons/bs";
+import { BsKeyboard, BsArrowLeft } from "react-icons/bs";
 import { cn } from "~/lib/utils";
 import { AnimatedBackground } from "~/components/animated-background";
 import type { LoaderFunction } from "@remix-run/node";
@@ -190,7 +190,7 @@ export default function ResultPage() {
 
           <div className="flex gap-4">
             <Button onClick={() => navigate("/test")} className="font-mono group" size="lg">
-              <RotateCcw className="w-4 h-4 mr-2 group-hover:rotate-180 transition-transform duration-300" />
+              <BsArrowLeft className="w-4 h-4 mr-2 group-hover:rotate-180 transition-transform duration-300" />
               {result ? "Try Again" : "Start New Test"}
             </Button>
           </div>
