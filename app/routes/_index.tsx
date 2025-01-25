@@ -2,6 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { Button } from "~/components/ui/button";
 import { BsKeyboard, BsArrowRight } from "react-icons/bs";
 import { Link } from "@remix-run/react";
+import { AnimatedBackground } from "~/components/animated-background";
 
 export const meta: MetaFunction = () => {
   return [
@@ -13,6 +14,7 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   return (
     <div className="relative min-h-[calc(100vh-4rem)] w-full overflow-hidden">
+      <AnimatedBackground />
 
       {/* Main Content */}
       <div className="container mx-auto relative z-10">
