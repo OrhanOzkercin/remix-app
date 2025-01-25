@@ -32,14 +32,6 @@ const Header = () => {
           </Link>
           
           <nav className="flex items-center gap-6">
-            <Link to="/test">
-              <Button 
-                variant="ghost" 
-                className="font-mono text-sm tracking-wide hover:text-primary"
-              >
-                Practice
-              </Button>
-            </Link>
             <Link to="/result">
               <Button 
                 variant="ghost" 

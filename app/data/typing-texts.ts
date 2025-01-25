@@ -7,6 +7,55 @@ interface TypingText {
 
 const typingTexts: TypingText[] = [
   {
+    id: "literature-2",
+    text: [
+      "Poetry is a form of expression that transcends ordinary language to create emotional resonance.",
+      "Through carefully chosen words and rhythmic patterns, poets paint vivid mental images.",
+      "Each line carries layers of meaning, inviting readers to explore deeper interpretations.",
+      "Metaphors and similes bridge the gap between abstract concepts and concrete experiences.",
+      "The power of poetry lies in its ability to capture complex emotions in concise phrases.",
+      "Every word is deliberately chosen to contribute to the overall impact of the piece."
+    ],
+    difficulty: "hard",
+    category: "literature"
+  },
+  {
+    id: "science-3",
+    text: [
+      "Climate change is one of the most pressing challenges facing our planet today.",
+      "Rising global temperatures affect weather patterns and ecosystems worldwide.",
+      "Greenhouse gases trap heat in the atmosphere, leading to various environmental changes.",
+      "Scientists observe melting ice caps, rising sea levels, and extreme weather events.",
+      "Addressing this issue requires global cooperation and innovative solutions."
+    ],
+    difficulty: "medium",
+    category: "science"
+  },
+  {
+    id: "tech-4",
+    text: [
+      "Cybersecurity is crucial in our increasingly connected digital world.",
+      "Hackers constantly develop new methods to breach security systems.",
+      "Strong passwords and two-factor authentication provide basic protection.",
+      "Regular software updates help patch known security vulnerabilities.",
+      "Being aware of common phishing tactics can prevent many security breaches."
+    ],
+    difficulty: "easy",
+    category: "technology"
+  },
+  {
+    id: "general-3",
+    text: [
+      "Time management is a critical skill in today's fast-paced world.",
+      "Setting clear priorities helps focus on what truly matters.",
+      "Breaking large tasks into smaller, manageable chunks increases productivity.",
+      "Regular breaks are essential for maintaining focus and preventing burnout.",
+      "Digital tools can help track time and organize tasks effectively."
+    ],
+    difficulty: "easy",
+    category: "general"
+  },
+  {
     id: "tech-1",
     text: [
       "Programming is the art of telling a computer what to do through carefully written instructions.",
@@ -136,4 +185,4 @@ export {
   getRandomText,
   getTextsByDifficulty,
   getTextsByCategory
-}; 
+};

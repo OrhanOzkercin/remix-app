@@ -8,7 +8,7 @@ import { useNavigate, useSubmit, useActionData } from "@remix-run/react";
 import { useToast } from "~/components/ui/use-toast";
 import { BsStopwatch } from "react-icons/bs";
 import { FcRefresh } from "react-icons/fc";
-import { FaDumbbell } from "react-icons/fa";
+import { FaFeather, FaFire, FaDragon } from "react-icons/fa";
 
 type ActionData = {
   error?: string;
@@ -409,7 +409,13 @@ export default function TestPage() {
                             )}
                             onClick={() => setSelectedDifficulty(difficulty)}
                           >
-                            <FaDumbbell className="mr-2 h-4 w-4" />
+                            {difficulty === "easy" ? (
+                              <FaFeather className="mr-2 h-4 w-4" />
+                            ) : difficulty === "medium" ? (
+                              <FaFire className="mr-2 h-4 w-4" />
+                            ) : (
+                              <FaDragon className="mr-2 h-4 w-4" />
+                            )}
                             {difficulty}
                           </Button>
                         ))}
