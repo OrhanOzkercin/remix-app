@@ -1,11 +1,13 @@
 import { useNavigate, useLocation, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
-import { BsKeyboard, BsArrowLeft } from "react-icons/bs";
+import { BsKeyboard, BsArrowLeft, BsPlusSlashMinus } from "react-icons/bs";
 import { cn } from "~/lib/utils";
 import { AnimatedBackground } from "~/components/animated-background";
 import type { LoaderFunction } from "@remix-run/node";
 import { getRecentTestResults, getBestResults } from "~/models/test-result.server";
 import { json } from "@remix-run/node";
+import { FaStarHalfAlt } from "react-icons/fa";
+import { IoTimerOutline } from "react-icons/io5";
 
 interface TestResult {
   wpm: number;
@@ -91,7 +93,7 @@ export default function ResultPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-3xl">
                 <div className="bg-background/80 backdrop-blur-sm rounded-lg p-6 border shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl">
                   <div className="flex flex-col items-center space-y-2">
-                    <BsKeyboard className="w-8 h-8 text-primary" />
+                    <IoTimerOutline className="w-8 h-8 text-primary" />
                     <h2 className="text-sm font-mono text-muted-foreground">Words per Minute</h2>
                     <p className="text-3xl font-mono font-bold text-primary">{result.wpm}</p>
                     <p className="text-sm font-mono text-muted-foreground">{result.wpm * 5} CPM</p>
@@ -100,7 +102,7 @@ export default function ResultPage() {
 
                 <div className="bg-background/80 backdrop-blur-sm rounded-lg p-6 border shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl">
                   <div className="flex flex-col items-center space-y-2">
-                    <BsKeyboard className="w-8 h-8 text-green-500" />
+                    <FaStarHalfAlt className="w-8 h-8 text-green-500" />
                     <h2 className="text-sm font-mono text-muted-foreground">Accuracy</h2>
                     <p className="text-3xl font-mono font-bold text-green-500">
                       {result.accuracy}%
@@ -113,7 +115,7 @@ export default function ResultPage() {
 
                 <div className="bg-background/80 backdrop-blur-sm rounded-lg p-6 border shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl">
                   <div className="flex flex-col items-center space-y-2">
-                    <BsKeyboard className="w-8 h-8 text-blue-500" />
+                    <BsPlusSlashMinus className="w-8 h-8 text-blue-500" />
                     <h2 className="text-sm font-mono text-muted-foreground">Words Typed</h2>
                     <p className="text-3xl font-mono font-bold text-blue-500">
                       {result.totalTypedWords}
