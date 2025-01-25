@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { DiCode, DiTerminal, DiReact, DiGithubBadge, DiDatabase } from "react-icons/di";
-import { MdCode, MdMemory, MdDeveloperMode, MdOutlineCode } from "react-icons/md";
-import { FaCode, FaBrain, FaInfinity, FaAtom } from "react-icons/fa";
+import { MdKeyboard, MdSpellcheck, MdTextFields, MdTimer } from "react-icons/md";
+import { FaKeyboard, FaRegKeyboard, FaRegClock, FaRegEdit } from "react-icons/fa";
+import { BsKeyboard, BsSpeedometer, BsStopwatch, BsTextLeft, BsType } from "react-icons/bs";
 
 type BackgroundIcon = {
-  icon: typeof DiCode;
+  icon: typeof BsKeyboard;
   size: number;
   position: {
     top: number;
@@ -37,19 +37,19 @@ export function AnimatedBackground() {
 
   useEffect(() => {
     const icons = [
-      DiCode,
-      DiTerminal,
-      DiReact,
-      DiGithubBadge,
-      DiDatabase,
-      MdCode,
-      MdMemory,
-      MdDeveloperMode,
-      MdOutlineCode,
-      FaCode,
-      FaBrain,
-      FaInfinity,
-      FaAtom,
+      BsKeyboard,
+      BsSpeedometer,
+      BsStopwatch,
+      BsTextLeft,
+      BsType,
+      MdKeyboard,
+      MdSpellcheck,
+      MdTextFields,
+      MdTimer,
+      FaKeyboard,
+      FaRegKeyboard,
+      FaRegClock,
+      FaRegEdit,
     ];
 
     const cellSize = 120;

@@ -10,7 +10,7 @@
     "dev:css": "tailwindcss -w -i ./app/styles/tailwind.css -o app/styles/tailwind.css",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve ./build/server/index.js",
-    "postinstall": "prisma generate",
+    "postinstall": "npx prisma generate",
     "typecheck": "tsc"
   },
   "dependencies": {
