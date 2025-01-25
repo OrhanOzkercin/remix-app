@@ -1,6 +1,5 @@
 import { Link } from "@remix-run/react"
 import { Button } from "~/components/ui/button"
-import { Keyboard } from "lucide-react"
 import { useFocusMode } from "~/contexts/focus-mode-context"
 import { cn } from "~/lib/utils"
 
@@ -19,7 +18,6 @@ const Header = () => {
             className="flex items-center gap-2 transition-colors"
           >
             <div className="flex items-center">
-              <Keyboard className="h-8 w-8 text-primary rotate-[-10deg] transform" />
               <div className="ml-2">
                 <span className="font-mono text-2xl font-bold tracking-tight">
                   Type<span className="text-primary">Speed</span>
