@@ -1,70 +1,35 @@
 import { json } from "@remix-run/node";
 import type { ActionFunction } from "@remix-run/node";
-import { createTestResult } from "~/models/test-result.server";
+import { prisma } from "~/db.server";
 
 export const action: ActionFunction = async ({ request }) => {
-  console.log("2constaction:ActionFunction= -> request:", request)
   if (request.method !== "POST") {
     return json({ error: "Method not allowed" }, { status: 405 });
   }
 
   try {
-    const formData = await request.formData();
-    const result = {
-      wpm: formData.get("wpm"),
-      accuracy: formData.get("accuracy"),
-      correctWords: formData.get("correctWords"),
-      totalTypedWords: formData.get("totalTypedWords"),
-      difficulty: formData.get("difficulty")
-    };
-    console.log("Received form data:", result);
+    const data = await request.json();
+    const { wpm, accuracy, correctWords, totalTypedWords, difficulty } = data;
 
-    // Convert values to numbers and validate
-    const wpm = Number(result.wpm);
-    const accuracy = Number(result.accuracy);
-    const correctWords = Number(result.correctWords);
-    const totalTypedWords = Number(result.totalTypedWords);
-    const difficulty = result.difficulty;
-
-    // Validate all fields
-    if (Number.isNaN(wpm) || Number.isNaN(accuracy) || 
-        Number.isNaN(correctWords) || Number.isNaN(totalTypedWords) || 
-        !difficulty) {
-      console.error("Invalid data received:", {
-        wpm,
-        accuracy,
-        correctWords,
-        totalTypedWords,
-        difficulty
-      });
-      return json({ error: "Invalid data received" }, { status: 400 });
+    // Validate required fields
+    if (!wpm || !accuracy || !correctWords || !totalTypedWords || !difficulty) {
+      return json({ error: "Missing required fields" }, { status: 400 });
     }
 
     // Save to database
-    console.log("Saving result:", {
-      wpm,
-      accuracy,
-      correctWords,
-      totalTypedWords,
-      difficulty
+    const result = await prisma.testResult.create({
+      data: {
+        wpm: Number(wpm),
+        accuracy: Number(accuracy),
+        correctWords: Number(correctWords),
+        totalTypedWords: Number(totalTypedWords),
+        difficulty: difficulty.toLowerCase(),
+      },
     });
 
-    const savedResult = await createTestResult({
-      wpm,
-      accuracy,
-      correctWords,
-      totalTypedWords,
-      difficulty
-    });
-
-    console.log("Successfully saved result:", savedResult);
-    return json({ success: true, result: savedResult });
-
+    return json({ success: true, result });
   } catch (error) {
     console.error("Failed to save test result:", error);
-    if (error instanceof Error) {
-      return json({ error: error.message }, { status: 500 });
-    }
-    return json({ error: "An unknown error occurred" }, { status: 500 });
+    return json({ error: "Failed to save test result" }, { status: 500 });
   }
 };

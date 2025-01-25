@@ -226,16 +226,12 @@ export default function TestPage() {
       setIsSaving(true);
       console.log("Submitting result:", result);
 
-      // Convert result to FormData for more reliable submission
-      const formData = new FormData();
-      Object.entries(result).forEach(([key, value]) => {
-        formData.append(key, String(value));
-      });
-
-      // Submit using FormData
-      await submit(formData, {
+      // First submit the data
+      await submit(result, {
         method: "post",
         action: "/api/test-results",
+        encType: "application/json",
+        replace: true,
       });
 
       // Then navigate in a separate effect
