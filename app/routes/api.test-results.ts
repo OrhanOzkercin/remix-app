@@ -3,14 +3,21 @@ import type { ActionFunction } from "@remix-run/node";
 import { createTestResult } from "~/models/test-result.server";
 
 export const action: ActionFunction = async ({ request }) => {
-  console.log("constaction:ActionFunction= -> request:", request)
+  console.log("2constaction:ActionFunction= -> request:", request)
   if (request.method !== "POST") {
     return json({ error: "Method not allowed" }, { status: 405 });
   }
 
   try {
-    const result = await request.json();
-    console.log("Received data:", result);
+    const formData = await request.formData();
+    const result = {
+      wpm: formData.get("wpm"),
+      accuracy: formData.get("accuracy"),
+      correctWords: formData.get("correctWords"),
+      totalTypedWords: formData.get("totalTypedWords"),
+      difficulty: formData.get("difficulty")
+    };
+    console.log("Received form data:", result);
 
     // Convert values to numbers and validate
     const wpm = Number(result.wpm);
@@ -60,4 +67,4 @@ export const action: ActionFunction = async ({ request }) => {
     }
     return json({ error: "An unknown error occurred" }, { status: 500 });
   }
-}; 
+};
