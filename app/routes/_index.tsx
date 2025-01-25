@@ -1,7 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Button } from "~/components/ui/button";
 import { Keyboard, ArrowRight } from "lucide-react";
-import { AnimatedBackground } from "~/components/animated-background";
 import { Link } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
@@ -14,7 +13,6 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   return (
     <div className="relative min-h-[calc(100vh-4rem)] w-full overflow-hidden">
-      <AnimatedBackground />
 
       {/* Main Content */}
       <div className="container mx-auto relative z-10">
