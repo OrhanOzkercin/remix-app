@@ -1,19 +1,21 @@
 import { useState, useEffect } from "react";
 import { AnimatedBackground } from "~/components/animated-background";
 import { Button } from "~/components/ui/button";
-import { BsTimer, BsRefreshCcw, BsDumbbell } from "react-icons/bs";
 import { cn } from "~/lib/utils";
 import { useFocusMode } from "~/contexts/focus-mode-context";
 import { getTextsByDifficulty, type TypingText } from "~/data/typing-texts";
 import { useNavigate, useSubmit, useActionData } from "@remix-run/react";
 import { useToast } from "~/components/ui/use-toast";
+import { BsStopwatch } from "react-icons/bs";
+import { FcRefresh } from "react-icons/fc";
+import { FaDumbbell } from "react-icons/fa";
 
 type ActionData = {
   error?: string;
   success?: boolean;
 };
 
-type Difficulty = 'easy' | 'medium' | 'hard';
+type Difficulty = "easy" | "medium" | "hard";
 
 const TIME_LIMIT = 60; // 60 seconds for testing
 
@@ -49,7 +51,7 @@ export default function TestPage() {
 
     if (isActive && timeLeft > 0) {
       intervalId = setInterval(() => {
-        setTimeLeft(time => {
+        setTimeLeft((time) => {
           if (time <= 1) {
             handleTestComplete();
             return 0;
@@ -91,7 +93,7 @@ export default function TestPage() {
     }
 
     const timeoutId = setTimeout(() => {
-      setCountdown(prev => prev !== null ? prev - 1 : null);
+      setCountdown((prev) => (prev !== null ? prev - 1 : null));
     }, 1000);
 
     return () => clearTimeout(timeoutId);
@@ -103,12 +105,12 @@ export default function TestPage() {
       toast({
         variant: "destructive",
         title: "Error",
-        description: actionData.error
+        description: actionData.error,
       });
     } else if (actionData?.success) {
       toast({
         title: "Success",
-        description: "Your test results have been saved!"
+        description: "Your test results have been saved!",
       });
     }
   }, [actionData, toast]);
@@ -116,7 +118,7 @@ export default function TestPage() {
   // Add useEffect for focus handling
   useEffect(() => {
     if (isStarted) {
-      const textarea = document.querySelector('textarea');
+      const textarea = document.querySelector("textarea");
       textarea?.focus();
     }
   }, [isStarted]);
@@ -149,31 +151,31 @@ export default function TestPage() {
     const typedWords = typed.split(" ");
     const lastTypedWord = typedWords[typedWords.length - 1];
     const currentWord = words[currentWordIndex];
-    
+
     // Check if space is pressed (word completed)
     if (typed.endsWith(" ")) {
       // Remove the space from lastTypedWord for comparison
       const completedWord = lastTypedWord || typedWords[typedWords.length - 2] || "";
       const isCorrect = completedWord === currentWord;
-      
-      setTotalTypedWords(prev => prev + 1);
+
+      setTotalTypedWords((prev) => prev + 1);
       if (isCorrect) {
-        setCorrectWords(prev => prev + 1);
+        setCorrectWords((prev) => prev + 1);
       }
-      
+
       // Move to next word
       if (currentWordIndex < words.length - 1) {
-        setCompletedWords(prev => [...prev, { word: completedWord, isCorrect }]);
-        setCurrentWordIndex(prev => prev + 1);
+        setCompletedWords((prev) => [...prev, { word: completedWord, isCorrect }]);
+        setCurrentWordIndex((prev) => prev + 1);
         setTypedText("");
-      } 
+      }
       // If it's the last word in the line
       else if (currentWordIndex === words.length - 1) {
-        setCompletedWords(prev => [...prev, { word: completedWord, isCorrect }]);
-        
+        setCompletedWords((prev) => [...prev, { word: completedWord, isCorrect }]);
+
         // Move to next line if available
         if (currentLineIndex < currentText.text.length - 1) {
-          setCurrentLineIndex(prev => prev + 1);
+          setCurrentLineIndex((prev) => prev + 1);
           setCurrentWordIndex(0);
           setCompletedWords([]);
           setTypedText("");
@@ -181,15 +183,15 @@ export default function TestPage() {
           handleTestComplete();
         }
       }
-    } 
+    }
     // Check if last word in line is completed without space
     else if (currentWordIndex === words.length - 1 && lastTypedWord === currentWord) {
       const isCorrect = lastTypedWord === currentWord;
-      setCompletedWords(prev => [...prev, { word: lastTypedWord, isCorrect }]);
-      
+      setCompletedWords((prev) => [...prev, { word: lastTypedWord, isCorrect }]);
+
       // Move to next line if available
       if (currentLineIndex < currentText.text.length - 1) {
-        setCurrentLineIndex(prev => prev + 1);
+        setCurrentLineIndex((prev) => prev + 1);
         setCurrentWordIndex(0);
         setCompletedWords([]);
         setTypedText("");
@@ -201,18 +203,18 @@ export default function TestPage() {
 
   const handleTestComplete = async () => {
     setIsActive(false);
-    
+
     if (!selectedDifficulty) return;
 
     const wpm = calculateWPM();
     const accuracy = calculateAccuracy();
-    
+
     console.log("Test completed with results:", {
       wpm,
       accuracy,
       correctWords,
       totalTypedWords,
-      difficulty: selectedDifficulty
+      difficulty: selectedDifficulty,
     });
 
     const result = {
@@ -220,34 +222,30 @@ export default function TestPage() {
       accuracy,
       correctWords,
       totalTypedWords,
-      difficulty: selectedDifficulty
+      difficulty: selectedDifficulty,
     };
-    
+
     try {
       setIsSaving(true);
       console.log("Submitting result:", result);
-      
+
       // First submit the data
-      await submit(
-        result,
-        { 
-          method: "post",
-          action: "/api/test-results",
-          encType: "application/json"
-        }
-      );
+      await submit(result, {
+        method: "post",
+        action: "/api/test-results",
+        encType: "application/json",
+      });
 
       // Then navigate in a separate effect
       setTimeout(() => {
         navigate("/result", { state: result });
       }, 0);
-      
     } catch (error) {
       console.error("Save error:", error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to save your results. Please try again."
+        description: "Failed to save your results. Please try again.",
       });
     } finally {
       setIsSaving(false);
@@ -266,7 +264,7 @@ export default function TestPage() {
 
   const renderCurrentLine = () => {
     if (!currentText) return null;
-    
+
     const currentLine = currentText.text[currentLineIndex];
     const words = currentLine.split(" ");
     const currentTypedWord = typedText.split(" ").pop() || "";
@@ -279,12 +277,10 @@ export default function TestPage() {
               const isCompleted = index < currentWordIndex;
               const isCurrent = index === currentWordIndex;
               const completedWord = completedWords[index];
-              const isCorrectSoFar = isCurrent && 
-                word.startsWith(currentTypedWord) && 
-                currentTypedWord.length > 0;
-              const isIncorrectSoFar = isCurrent && 
-                !word.startsWith(currentTypedWord) && 
-                currentTypedWord.length > 0;
+              const isCorrectSoFar =
+                isCurrent && word.startsWith(currentTypedWord) && currentTypedWord.length > 0;
+              const isIncorrectSoFar =
+                isCurrent && !word.startsWith(currentTypedWord) && currentTypedWord.length > 0;
 
               return (
                 <span
@@ -293,11 +289,11 @@ export default function TestPage() {
                     // Base styles
                     "px-1 rounded transition-colors",
                     // Completed word styles
-                    isCompleted && completedWord && (
-                      completedWord.isCorrect 
+                    isCompleted &&
+                      completedWord &&
+                      (completedWord.isCorrect
                         ? "bg-green-500/20 text-green-700"
-                        : "bg-red-500/20 text-red-700"
-                    ),
+                        : "bg-red-500/20 text-red-700"),
                     // Current word styles
                     isCurrent && "border-b-2",
                     // Currently typing styles
@@ -320,7 +316,7 @@ export default function TestPage() {
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
   return (
@@ -331,54 +327,66 @@ export default function TestPage() {
           <AnimatedBackground />
         </div>
       )}
-      
-      <div className={cn(
-        "container mx-auto relative z-10 transition-colors duration-700",
-        isStarted && "bg-background/40"
-      )}>
+
+      <div
+        className={cn(
+          "container mx-auto relative z-10 transition-colors duration-700",
+          isStarted && "bg-background/40"
+        )}
+      >
         <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-4">
           {/* Timer and Stats Bar */}
-          <div className={cn(
-            "fixed top-20 left-0 right-0 flex justify-center transition-all duration-700",
-            // Remove opacity reduction when time is less than 30 seconds
-            isStarted && timeLeft > 30 ? "opacity-40 hover:opacity-100" : "opacity-100"
-          )}>
-            <div className={cn(
-              "bg-background/80 backdrop-blur-sm border rounded-full px-6 py-2 flex items-center gap-8",
-              // Add pulsing glow effect when time is running low
-              timeLeft <= 30 && "ring-2 ring-primary/50 shadow-lg shadow-primary/20"
-            )}>
+          <div
+            className={cn(
+              "fixed top-20 left-0 right-0 flex justify-center transition-all duration-700",
+              // Remove opacity reduction when time is less than 30 seconds
+              isStarted && timeLeft > 30 ? "opacity-40 hover:opacity-100" : "opacity-100"
+            )}
+          >
+            <div
+              className={cn(
+                "bg-background/80 backdrop-blur-sm border rounded-full px-6 py-2 flex items-center gap-8",
+                // Add pulsing glow effect when time is running low
+                timeLeft <= 30 && "ring-2 ring-primary/50 shadow-lg shadow-primary/20"
+              )}
+            >
               <div className="flex items-center gap-2">
-                <BsTimer className={cn(
-                  "w-4 h-4",
-                  timeLeft <= 10 ? "text-red-500" : 
-                  timeLeft <= 30 ? "text-yellow-500" : 
-                  "text-primary"
-                )} />
-                <span className={cn(
-                  "font-mono text-2xl font-bold",
-                  timeLeft <= 10 && "text-red-500 animate-pulse",
-                  timeLeft <= 30 && timeLeft > 10 && "text-yellow-500"
-                )}>
+                <BsStopwatch
+                  className={cn(
+                    "w-4 h-4",
+                    timeLeft <= 10
+                      ? "text-red-500"
+                      : timeLeft <= 30
+                      ? "text-yellow-500"
+                      : "text-primary"
+                  )}
+                />
+                <span
+                  className={cn(
+                    "font-mono text-2xl font-bold",
+                    timeLeft <= 10 && "text-red-500 animate-pulse",
+                    timeLeft <= 30 && timeLeft > 10 && "text-yellow-500"
+                  )}
+                >
                   {formatTime(timeLeft)}
                 </span>
               </div>
               <div className="text-sm font-mono">
-                <span className="text-muted-foreground">WPM:</span>{" "}
-                {calculateWPM()}
+                <span className="text-muted-foreground">WPM:</span> {calculateWPM()}
               </div>
               <div className="text-sm font-mono">
-                <span className="text-muted-foreground">Accuracy:</span>{" "}
-                {calculateAccuracy()}%
+                <span className="text-muted-foreground">Accuracy:</span> {calculateAccuracy()}%
               </div>
             </div>
           </div>
 
           {/* Main Test Area */}
-          <div className={cn(
-            "w-full max-w-3xl space-y-8 transition-all duration-700",
-            isStarted && "backdrop-blur-sm"
-          )}>
+          <div
+            className={cn(
+              "w-full max-w-3xl space-y-8 transition-all duration-700",
+              isStarted && "backdrop-blur-sm"
+            )}
+          >
             {/* Difficulty Selection or Text Display Area */}
             <div className="relative">
               {!isStarted ? (
@@ -388,15 +396,13 @@ export default function TestPage() {
                       <div className="text-8xl font-mono font-bold text-primary animate-bounce">
                         {countdown}
                       </div>
-                      <div className="text-xl font-mono text-muted-foreground">
-                        Get ready...
-                      </div>
+                      <div className="text-xl font-mono text-muted-foreground">Get ready...</div>
                     </div>
                   ) : (
                     <>
                       <h2 className="text-2xl font-mono text-center">Select Difficulty</h2>
                       <div className="flex justify-center gap-4">
-                        {(['easy', 'medium', 'hard'] as const).map((difficulty) => (
+                        {(["easy", "medium", "hard"] as const).map((difficulty) => (
                           <Button
                             key={difficulty}
                             variant={selectedDifficulty === difficulty ? "default" : "outline"}
@@ -406,7 +412,7 @@ export default function TestPage() {
                             )}
                             onClick={() => setSelectedDifficulty(difficulty)}
                           >
-                            <BsDumbbell className="mr-2 h-4 w-4" />
+                            <FaDumbbell className="mr-2 h-4 w-4" />
                             {difficulty}
                           </Button>
                         ))}
@@ -446,7 +452,7 @@ export default function TestPage() {
                   placeholder="Start typing..."
                 />
                 <div className="flex justify-end gap-4">
-                  <Button 
+                  <Button
                     variant="outline"
                     onClick={handleRestart}
                     className="font-mono opacity-30 hover:opacity-100 transition-opacity"
@@ -459,7 +465,7 @@ export default function TestPage() {
                       </>
                     ) : (
                       <>
-                        <BsArrowLeft className="w-4 h-4 mr-2" /> 
+                        <FcRefresh className="w-4 h-4 mr-2" />
                         Restart
                       </>
                     )}
