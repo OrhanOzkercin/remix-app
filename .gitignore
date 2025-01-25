@@ -3,3 +3,14 @@ node_modules
 /.cache
 /build
 .env
+.env.local
+.env.production
+.env.development
+
+/public/build
+.DS_Store
+
+/prisma/dev.db
+/prisma/dev.db-journal
+
+.vercel

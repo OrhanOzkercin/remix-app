@@ -1,5 +1,5 @@
-import type { Config } from "tailwindcss"
-import animatePlugin from "tailwindcss-animate"
+import type { Config } from "tailwindcss";
+import animatePlugin from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
@@ -73,11 +73,13 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       backgroundImage: {
-        'grid-small-black': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23000000' d='M1 0h2v2H1V0zM0 1h2v2H0V1z' opacity='.1'/%3E%3C/svg%3E\")",
-        'grid-small-white': "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23FFFFFF' d='M1 0h2v2H1V0zM0 1h2v2H0V1z' opacity='.1'/%3E%3C/svg%3E\")",
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        "grid-small-black":
+          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23000000' d='M1 0h2v2H1V0zM0 1h2v2H0V1z' opacity='.1'/%3E%3C/svg%3E\")",
+        "grid-small-white":
+          "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23FFFFFF' d='M1 0h2v2H1V0zM0 1h2v2H0V1z' opacity='.1'/%3E%3C/svg%3E\")",
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
       },
     },
   },
   plugins: [animatePlugin],
-} satisfies Config 
+} satisfies Config;

@@ -1,22 +1,10 @@
 import { useEffect, useState } from "react";
-import {
-  Type,
-  Timer,
-  Percent,
-  KeySquare,
-  Keyboard,
-  BarChart,
-  Clock,
-  KeyRound,
-  Gamepad2,
-  MousePointer,
-  Hash,
-  Sparkles,
-  Sigma,
-} from "lucide-react";
+import { DiCode, DiTerminal, DiReact, DiGithubBadge, DiDatabase } from "react-icons/di";
+import { MdCode, MdMemory, MdDeveloperMode, MdOutlineCode } from "react-icons/md";
+import { FaCode, FaBrain, FaInfinity, FaAtom } from "react-icons/fa";
 
 type BackgroundIcon = {
-  icon: typeof Keyboard;
+  icon: typeof DiCode;
   size: number;
   position: {
     top: number;
@@ -49,19 +37,19 @@ export function AnimatedBackground() {
 
   useEffect(() => {
     const icons = [
-      Type,
-      Keyboard,
-      Timer,
-      KeyRound,
-      Clock,
-      KeySquare,
-      BarChart,
-      Gamepad2,
-      Percent,
-      MousePointer,
-      Hash,
-      Sparkles,
-      Sigma,
+      DiCode,
+      DiTerminal,
+      DiReact,
+      DiGithubBadge,
+      DiDatabase,
+      MdCode,
+      MdMemory,
+      MdDeveloperMode,
+      MdOutlineCode,
+      FaCode,
+      FaBrain,
+      FaInfinity,
+      FaAtom,
     ];
 
     const cellSize = 120;
@@ -82,7 +70,7 @@ export function AnimatedBackground() {
           top: pos.row * cellSize + Math.random() * cellSize * 0.3,
           left: pos.col * cellSize + Math.random() * cellSize * 0.3,
         },
-        rotation: Math.random() * 360 ,
+        rotation: Math.random() * 360,
         opacity: Math.random() * 0.15 + 0.05,
         color: colors[Math.floor(Math.random() * colors.length)],
         animation: {

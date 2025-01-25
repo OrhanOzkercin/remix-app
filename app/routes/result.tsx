@@ -1,6 +1,6 @@
 import { useNavigate, useLocation, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
-import { Target, Keyboard, RotateCcw, Gauge, Zap } from "lucide-react";
+import { BsKeyboard, BsArrowLeft } from "react-icons/bs";
 import { cn } from "~/lib/utils";
 import { AnimatedBackground } from "~/components/animated-background";
 import type { LoaderFunction } from "@remix-run/node";
@@ -29,9 +29,9 @@ export const loader: LoaderFunction = async () => {
   try {
     const [recentResults, bestResults] = await Promise.all([
       getRecentTestResults(5),
-      getBestResults()
+      getBestResults(),
     ]);
-    
+
     return json<LoaderData>({ recentResults, bestResults });
   } catch (error) {
     console.error("Failed to load results:", error);
@@ -48,10 +48,10 @@ export default function ResultPage() {
   // Format date to a readable string
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString(undefined, {
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -74,12 +74,10 @@ export default function ResultPage() {
           {result ? (
             <>
               <div className="space-y-4 text-center">
-                <h1 className="text-4xl font-mono font-bold">
-                  Test Complete!
-                </h1>
+                <h1 className="text-4xl font-mono font-bold">Test Complete!</h1>
                 <div className="flex flex-col items-center gap-2">
                   <div className="flex items-center gap-2">
-                    <Zap className={cn("w-5 h-5", getSpeedRating(result.wpm).color)} />
+                    <BsKeyboard className={cn("w-5 h-5", getSpeedRating(result.wpm).color)} />
                     <p className={cn("text-xl font-mono", getSpeedRating(result.wpm).color)}>
                       {getSpeedRating(result.wpm).text} Typist
                     </p>
@@ -93,7 +91,7 @@ export default function ResultPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-3xl">
                 <div className="bg-background/80 backdrop-blur-sm rounded-lg p-6 border shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl">
                   <div className="flex flex-col items-center space-y-2">
-                    <Gauge className="w-8 h-8 text-primary" />
+                    <BsKeyboard className="w-8 h-8 text-primary" />
                     <h2 className="text-sm font-mono text-muted-foreground">Words per Minute</h2>
                     <p className="text-3xl font-mono font-bold text-primary">{result.wpm}</p>
                     <p className="text-sm font-mono text-muted-foreground">{result.wpm * 5} CPM</p>
@@ -102,28 +100,34 @@ export default function ResultPage() {
 
                 <div className="bg-background/80 backdrop-blur-sm rounded-lg p-6 border shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl">
                   <div className="flex flex-col items-center space-y-2">
-                    <Target className="w-8 h-8 text-green-500" />
+                    <BsKeyboard className="w-8 h-8 text-green-500" />
                     <h2 className="text-sm font-mono text-muted-foreground">Accuracy</h2>
-                    <p className="text-3xl font-mono font-bold text-green-500">{result.accuracy}%</p>
-                    <p className="text-sm font-mono text-muted-foreground">{result.correctWords} correct words</p>
+                    <p className="text-3xl font-mono font-bold text-green-500">
+                      {result.accuracy}%
+                    </p>
+                    <p className="text-sm font-mono text-muted-foreground">
+                      {result.correctWords} correct words
+                    </p>
                   </div>
                 </div>
 
                 <div className="bg-background/80 backdrop-blur-sm rounded-lg p-6 border shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl">
                   <div className="flex flex-col items-center space-y-2">
-                    <Keyboard className="w-8 h-8 text-blue-500" />
+                    <BsKeyboard className="w-8 h-8 text-blue-500" />
                     <h2 className="text-sm font-mono text-muted-foreground">Words Typed</h2>
-                    <p className="text-3xl font-mono font-bold text-blue-500">{result.totalTypedWords}</p>
-                    <p className="text-sm font-mono text-muted-foreground">{Math.round(result.totalTypedWords / 60)} words/sec</p>
+                    <p className="text-3xl font-mono font-bold text-blue-500">
+                      {result.totalTypedWords}
+                    </p>
+                    <p className="text-sm font-mono text-muted-foreground">
+                      {Math.round(result.totalTypedWords / 60)} words/sec
+                    </p>
                   </div>
                 </div>
               </div>
             </>
           ) : (
             <div className="space-y-4 text-center">
-              <h1 className="text-4xl font-mono font-bold">
-                Typing History
-              </h1>
+              <h1 className="text-4xl font-mono font-bold">Typing History</h1>
               <p className="text-sm font-mono text-muted-foreground">
                 View your recent and best typing test results
               </p>
@@ -136,7 +140,7 @@ export default function ResultPage() {
               <div className="space-y-2">
                 {recentResults.length > 0 ? (
                   recentResults.map((result) => (
-                    <div 
+                    <div
                       key={result.id}
                       className="flex justify-between items-center p-2 rounded bg-background/50"
                     >
@@ -156,13 +160,12 @@ export default function ResultPage() {
                 )}
               </div>
             </div>
-            
             <div className="bg-background/80 backdrop-blur-sm rounded-lg p-6 border">
               <h3 className="font-mono text-lg font-bold mb-4">Best Results</h3>
               <div className="space-y-2">
                 {bestResults.length > 0 ? (
                   bestResults.map((result) => (
-                    <div 
+                    <div
                       key={result.id}
                       className="flex justify-between items-center p-2 rounded bg-background/50"
                     >
@@ -185,12 +188,8 @@ export default function ResultPage() {
           </div>
 
           <div className="flex gap-4">
-            <Button
-              onClick={() => navigate("/test")}
-              className="font-mono group"
-              size="lg"
-            >
-              <RotateCcw className="w-4 h-4 mr-2 group-hover:rotate-180 transition-transform duration-300" />
+            <Button onClick={() => navigate("/test")} className="font-mono group" size="lg">
+              <BsArrowLeft className="w-4 h-4 mr-2 group-hover:rotate-180 transition-transform duration-300" />
               {result ? "Try Again" : "Start New Test"}
             </Button>
           </div>
@@ -198,4 +197,4 @@ export default function ResultPage() {
       </div>
     </div>
   );
-} 
+}
