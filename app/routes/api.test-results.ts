@@ -3,6 +3,7 @@ import type { ActionFunction } from "@remix-run/node";
 import { createTestResult } from "~/models/test-result.server";
 
 export const action: ActionFunction = async ({ request }) => {
+  console.log("constaction:ActionFunction= -> request:", request)
   if (request.method !== "POST") {
     return json({ error: "Method not allowed" }, { status: 405 });
   }
