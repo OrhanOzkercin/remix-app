@@ -1,10 +1,11 @@
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
-import Footer from './components/footer'
+import Footer from "./components/footer";
 import styles from "./styles/tailwind.css?url";
 import Header from "./components/header";
 import { FocusModeProvider } from "./contexts/focus-mode-context";
 import { Toaster } from "./components/ui/toaster";
+import { Analytics } from "@vercel/analytics/remix";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
@@ -31,6 +32,7 @@ export default function App() {
         <Scripts />
         <LiveReload />
         <Toaster />
+        <Analytics />
       </body>
     </html>
   );
