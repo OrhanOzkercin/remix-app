@@ -225,15 +225,16 @@ export default function TestPage() {
 
     try {
       setIsSaving(true);
-      // Navigate directly to results page with state
-      navigate("/result", { state: result });
-
-      // Submit the data after navigation
+      
+      // Save the data first
       await submit(result, {
         method: "post",
         action: "/api/test-results",
         encType: "application/json",
       });
+
+      // Navigate to results page after successful save
+      navigate("/result", { state: result });
     } catch (error) {
       console.error("Save error:", error);
       toast({

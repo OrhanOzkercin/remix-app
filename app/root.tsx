@@ -1,6 +1,6 @@
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
-
+import Footer from './components/footer'
 import styles from "./styles/tailwind.css?url";
 import Header from "./components/header";
 import { FocusModeProvider } from "./contexts/focus-mode-context";
@@ -24,6 +24,7 @@ export default function App() {
             <main className="flex-1">
               <Outlet />
             </main>
+            <Footer />
           </div>
         </FocusModeProvider>
         <ScrollRestoration />
