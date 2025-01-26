@@ -214,13 +214,6 @@ export default function TestPage() {
 
     const wpm = calculateWPM();
     const accuracy = calculateAccuracy();
-    console.log("Test completed with results:", {
-      wpm,
-      accuracy,
-      correctWords,
-      totalTypedWords,
-      difficulty: selectedDifficulty,
-    });
 
     const result = {
       wpm,
@@ -232,23 +225,14 @@ export default function TestPage() {
 
     try {
       setIsSaving(true);
-      console.log("Submitting result:", result);
-
-      // First submit the data
-      const response = await fetch("/api/test-results", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(result),
+      // Use Remix's submit function instead of fetch
+      await submit(result, {
+        method: "post",
+        action: "/api/test-results",
+        encType: "application/json",
       });
 
-      const responseData = await response.json();
-      if (!response.ok) {
-        throw new Error(responseData.error || "Failed to save results");
-      }
-
-      // Then navigate in a separate effect
+      // Navigate to results page after successful submission
       setTimeout(() => {
         navigate("/result", { state: result });
       }, 0);
