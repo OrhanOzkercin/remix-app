@@ -235,12 +235,18 @@ export default function TestPage() {
       console.log("Submitting result:", result);
 
       // First submit the data
-      await submit(result, {
-        method: "post",
-        action: "/api/test-results",
-        encType: "application/json",
-        replace: true,
+      const response = await fetch("/api/test-results", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(result),
       });
+
+      const responseData = await response.json();
+      if (!response.ok) {
+        throw new Error(responseData.error || "Failed to save results");
+      }
 
       // Then navigate in a separate effect
       setTimeout(() => {
