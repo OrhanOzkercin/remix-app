@@ -225,17 +225,15 @@ export default function TestPage() {
 
     try {
       setIsSaving(true);
-      // Use Remix's submit function instead of fetch
+      // Navigate directly to results page with state
+      navigate("/result", { state: result });
+
+      // Submit the data after navigation
       await submit(result, {
         method: "post",
         action: "/api/test-results",
         encType: "application/json",
       });
-
-      // Navigate to results page after successful submission
-      setTimeout(() => {
-        navigate("/result", { state: result });
-      }, 0);
     } catch (error) {
       console.error("Save error:", error);
       toast({
