@@ -17,7 +17,7 @@ type ActionData = {
 
 type Difficulty = "easy" | "medium" | "hard";
 
-const TIME_LIMIT = 10; // 60 seconds for testing
+const TIME_LIMIT = 60; // 60 seconds for testing
 
 export default function TestPage() {
   const [isStarted, setIsStarted] = useState(false);
