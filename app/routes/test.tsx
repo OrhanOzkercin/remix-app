@@ -4,18 +4,39 @@ import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { useFocusMode } from "~/contexts/focus-mode-context";
 import { getTextsByDifficulty, type TypingText } from "~/data/typing-texts";
-import { useNavigate, useSubmit, useActionData } from "@remix-run/react";
+import { useNavigate, useActionData, Form } from "@remix-run/react";
 import { useToast } from "~/components/ui/use-toast";
 import { BsStopwatch } from "react-icons/bs";
 import { FcRefresh } from "react-icons/fc";
 import { FaFeather, FaFire, FaDragon } from "react-icons/fa";
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction, ActionFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { createTestResult } from "~/models/test-result.server";
 
 export const meta: MetaFunction = () => {
   return [
     { title: "Typing Test - TypeSpeed" },
     { name: "description", content: "Take a one-minute typing test to measure your typing speed and accuracy. Choose from different difficulty levels and improve your skills." },
   ];
+};
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const result = {
+    wpm: Number(formData.get("wpm")),
+    accuracy: Number(formData.get("accuracy")),
+    correctWords: Number(formData.get("correctWords")),
+    totalTypedWords: Number(formData.get("totalTypedWords")),
+    difficulty: formData.get("difficulty") as "easy" | "medium" | "hard",
+  };
+
+  try {
+    await createTestResult(result);
+    return json({ success: true });
+  } catch (error) {
+    console.error("Failed to save test result:", error);
+    return json({ error: "Failed to save test result" }, { status: 500 });
+  }
 };
 
 type ActionData = {
@@ -42,7 +63,6 @@ export default function TestPage() {
   const [correctWords, setCorrectWords] = useState(0);
   const [countdown, setCountdown] = useState<number | null>(null);
   const navigate = useNavigate();
-  const submit = useSubmit();
   const { toast } = useToast();
   const actionData = useActionData<ActionData>();
   const [isSaving, setIsSaving] = useState(false);
@@ -226,14 +246,20 @@ export default function TestPage() {
     try {
       setIsSaving(true);
       
-      // Save the data first
-      await submit(result, {
-        method: "post",
-        action: "/api/test-results",
-        encType: "application/json",
+      // Create a hidden form and submit it
+      const formData = new FormData();
+      formData.append("wpm", wpm.toString());
+      formData.append("accuracy", accuracy.toString());
+      formData.append("correctWords", correctWords.toString());
+      formData.append("totalTypedWords", totalTypedWords.toString());
+      formData.append("difficulty", selectedDifficulty);
+
+      await fetch("", {
+        method: "POST",
+        body: formData,
       });
 
-      // Navigate to results page after successful save
+      // Navigate to results page
       navigate("/result", { state: result });
     } catch (error) {
       console.error("Save error:", error);
