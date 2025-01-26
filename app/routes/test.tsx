@@ -9,6 +9,14 @@ import { useToast } from "~/components/ui/use-toast";
 import { BsStopwatch } from "react-icons/bs";
 import { FcRefresh } from "react-icons/fc";
 import { FaFeather, FaFire, FaDragon } from "react-icons/fa";
+import type { MetaFunction } from "@remix-run/node";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Typing Test - TypeSpeed" },
+    { name: "description", content: "Take a one-minute typing test to measure your typing speed and accuracy. Choose from different difficulty levels and improve your skills." },
+  ];
+};
 
 type ActionData = {
   error?: string;

@@ -3,9 +3,16 @@ import { Button } from "~/components/ui/button";
 import { BsKeyboard, BsArrowLeft, BsPlusSlashMinus } from "react-icons/bs";
 import { cn } from "~/lib/utils";
 import { AnimatedBackground } from "~/components/animated-background";
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { getRecentTestResults, getBestResults } from "~/models/test-result.server";
 import { json } from "@remix-run/node";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Test Results - TypeSpeed" },
+    { name: "description", content: "View your typing test results, including words per minute, accuracy, and performance history. Track your progress and see how you compare." },
+  ];
+};
 import { FaStarHalfAlt } from "react-icons/fa";
 import { IoTimerOutline } from "react-icons/io5";
 
